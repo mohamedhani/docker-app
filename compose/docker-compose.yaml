@@ -1,0 +1,26 @@
+version: "3.5"
+services:
+    my-app:
+        build:
+            context: /home/mohamed/Desktop/lab2/myapp
+        image: mohamedhani/myapp
+        container_name: "python-app"
+        networks: 
+            - "app-net"
+    load-balance:
+        image: nginx
+        ports:
+            - "8080:80"
+        container_name: "load-balance"
+        volumes: 
+            - "../nginx/:/etc/nginx/conf.d"
+        networks: 
+            - "app-net"
+              
+
+networks:
+    app-net:
+        ipam:
+            driver: default   
+            config:
+                - subnet: "192.168.101.0/24"
